@@ -1,0 +1,159 @@
+module AutoVendor_Control( give, change, money_total, clk, money_input, reset, choice ) ;
+
+
+input clk, reset ;
+input [7:0] money_input ; // User enter money
+input [3:0] choice ; // Choose the drink
+output [3:0] give ; // The drink finally get
+output [7:0] change ; // Make change
+output [7:0] money_total ; // Total money
+
+reg [1:0] tea, coke, coffee, milk ; // Decide which drink
+parameter S0 = 0 ; // State 0
+parameter  S1 = 1 ; // State 1
+parameter  S2 = 2 ; // State 2
+parameter  S3 = 3 ; // State 3
+	  
+reg [2:0] state ;
+reg [2:0] next_state ;
+
+reg [7:0] money_total ;
+reg [7:0] change ;
+reg [3:0] give ;
+
+initial 
+begin
+    total_money = 0 ;
+    tea = 0 ;
+    coke = 0 ;
+    coffee = 0 ;
+    milk = 0 ;
+    change = 0 ;
+    give = 0 ;
+end
+
+always @ ( posedge clk or reset ) begin // Decide weather reset
+  if ( reset ) begin
+    state = S0 ;
+  end
+  else begin
+    state = next_state ;
+  end
+end
+
+always @ ( state or money_total or choice ) begin // Change state
+
+case ( state )
+    S0 :
+    begin
+        money_total = money_total + money_input ;  
+    end
+    S1 :  
+    begin
+        if ( money_total >= 10 && money_total < 15 ) begin
+            tea = 1 ;
+            coke = 0 ;
+            milk = 0 ;
+            coffee = 0 ;
+        end
+        else if ( money_total >= 15 && money_total < 20 ) begin
+            tea = 1 ;
+            coke = 1 ;
+            milk = 0 ;
+            coffee = 0 ;
+        end
+        else if ( money_total >= 20 && money_total < 25 ) begin
+            tea = 1 ;
+            coke = 1 ;
+            milk = 1 ;
+            coffee = 0 ;
+        end
+        else if ( money_total >= 25 ) begin
+            tea = 1 ;
+            coke = 1 ;
+            milk = 1 ;
+            coffee = 1 ;
+        end
+    end
+
+    S2 : 
+    begin
+        give = choice ;
+    end	
+	
+    S3 :
+    begin
+        if ( choice == 1 ) change = money_total -10;
+	else if ( choice == 2 ) change = money_total -15;
+	else if ( choice == 3 ) change = money_total -20;
+	else if ( choice == 4 ) change = money_total -25;
+	money_total = 0 ;
+        //if ( choice == 4'b0001 ) total_money = total_money -7'd10;
+	//else if ( choice == 4'b0011 ) total_money = total_money -7'd15;
+	//else if ( choice == 4'b0111 ) total_money = total_money -7'd20;
+	//else if ( choice == 4'b1111 ) total_money = total_money -7'd25;	
+    end	
+	
+endcase
+end
+
+always @ ( state or money_total or tea or coke or coffee or milk or clk ) begin
+        case ( state )
+        S0 :       
+        begin
+            if ( total_money >= 10 ) begin
+                next_state = S1 ;
+            end
+            else begin
+                next_state = S0 ;
+            end
+        end
+        S1 :
+        begin
+            if ( tea == 1 ) begin
+	        if ( choice == 4'b0001 )
+		    next_state = S2;
+		else
+                    next_state = S1 ;
+	    end
+			
+	    else if ( coke == 1 ) begin
+	        if ( choice == 4'b0011 || choice == 4'b0001 )
+			     next_state = S2;
+			   else
+                 next_state = S1 ;
+			end
+				 
+			else if ( C == 1 ) 
+			begin
+			   if ( choice == 4'b0111 || choice == 4'b0011 || choice == 4'b0001 )
+			     next_state = S2;
+			   else
+                 next_state = S1 ;
+			end
+			
+			else if ( D == 1 ) 
+			begin
+			   if ( choice == 4'b1111 || choice == 4'b0111 || choice == 4'b0011 || choice == 4'b0001 )
+			     next_state = S2;
+			   else
+                 next_state = S1 ;
+			end
+
+        end	  
+		
+        S2 :       
+        begin
+            next_state = S3 ;
+        end		
+		
+		S3 :
+		begin
+		    next_state = S0 ; 
+		end
+		endcase
+end
+
+endmodule
+
+

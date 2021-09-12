@@ -1,0 +1,54 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/Lab06
+vAutoVendor
+Z0 !s110 1609378165
+!i10b 1
+!s100 ic`b:[XOmkPeI=k@H9o:_0
+IT4U_9ORQ=bFOP8n@0zod>2
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dD:/FP
+w1609130177
+8D:/FP/AutoVendor.v
+FD:/FP/AutoVendor.v
+L0 1
+Z3 OP;L;10.4a;61
+r1
+!s85 0
+31
+Z4 !s108 1609378165.000000
+!s107 D:/FP/AutoVendor.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/FP/AutoVendor.v|
+!s101 -O0
+!i113 1
+Z5 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+n@auto@vendor
+vSimulate
+R0
+!i10b 1
+!s100 fG2feb3?6iRQSR1boPgJB2
+IK7z@O?^b6kOFnJ:WHkl@A1
+R1
+R2
+w1609378152
+8D:/FP/Simulate.v
+FD:/FP/Simulate.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 D:/FP/Simulate.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/FP/Simulate.v|
+!s101 -O0
+!i113 1
+R5
+n@simulate
